@@ -12,77 +12,112 @@ using System.Windows.Forms;
 
 namespace hw7
 {
+    enum SearchState
+    {
+        Stopped,
+        Running,
+        Paused,
+        Cancelled
+    }
     public partial class SearchForm : Form
     {
-        CancellationTokenSource _tokenSource;
         BackgroundWorker worker;
-        private delegate void DELEGATE();
-        CancellationToken token;
+        ManualResetEvent _busy;
+        SearchState workerState;
+        string workerExt;
+        Dictionary<string, FileInfo> myFiles;
+
         public SearchForm()
         {
             InitializeComponent();
+            _busy = new ManualResetEvent(false);
+            workerState = SearchState.Stopped;
             worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = true;
-            _tokenSource = new CancellationTokenSource();
-            token = _tokenSource.Token;
+            worker.WorkerSupportsCancellation = true;
+            worker.DoWork += Search;
+            worker.RunWorkerCompleted += SearchCompleted;
+            myFiles = new Dictionary<string, FileInfo>();
         }
 
         public void SearchForm_Load(object sender, EventArgs e)
         {
-           
+            this.extDropdown.SelectedIndex = 0;
+            this.extDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
+
         }
 
         private void searchButton_Click(object sender, EventArgs e)
         {
+            if(workerState == SearchState.Stopped)
+            {
+                this.filesListBox.Items.Clear();
+                this.searchButton.Text = "Pause";
+                workerState = SearchState.Running;
+                this.statusLabel.Text = "Searching";
+                worker.RunWorkerAsync();
+                _busy.Set();
+            }
+            else if(workerState == SearchState.Running)
+            {
+                _busy.Reset();
+                this.searchButton.Text = "Resume";
+                this.statusLabel.Text = "Paused";
+                workerState = SearchState.Paused;
+            }
+            else if (workerState == SearchState.Paused)
+            {
+                this.searchButton.Text = "Pause";
+                this.statusLabel.Text = "Searching";
+                workerState = SearchState.Running;
+                _busy.Set();
+            }
+        }
 
-            worker.DoWork += SearchFiles;
-            worker.RunWorkerAsync();
+        private void SearchCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.searchButton.Text = "Search";
+            this.statusLabel.Text = "Stopped";
+            if (workerState == SearchState.Cancelled)
+            {
+                MessageBox.Show("Search Cancelled. " + this.filesListBox.Items.Count + " Files Found");
+            }
+            else
+            {
+                MessageBox.Show("Search Completed. " + this.filesListBox.Items.Count + " Files Found");
+            }
+            workerState = SearchState.Stopped;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            _tokenSource.Cancel();
-        }
-
-
-        private void SearchFiles(object sender, DoWorkEventArgs e)
-        {
-            Delegate del = new DELEGATE(Search);
-            this.Invoke(del);
-        }
-
-        private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            if (e.ProgressPercentage == 0) return;
-            var files = e.UserState as List<string>;
-            var sb = new StringBuilder();
-            foreach (var file in files)
+            if (worker.IsBusy)
             {
-                this.filesListBox.Items.Add(file);
+                this.searchButton.Text = "Search";
+                workerState = SearchState.Cancelled;
+                worker.CancelAsync();
+                _busy.Set();
             }
         }
-        private void Search()
+
+        private void Search(object sender, DoWorkEventArgs e)
         {
             foreach (String drive in Directory.GetLogicalDrives())
             {
-                /*  Debug.WriteLine(drive);*//**/
                 foreach (DirectoryInfo child in getDirectories(drive))
                 {
-                    /* Debug.WriteLine(child.FullName);*//**/
-                    FindFiles(child);
-                    if (token.IsCancellationRequested)
+                    _busy.WaitOne();
+                    if (worker.CancellationPending)
                     {
-                        return;
+                        e.Cancel = true;
+                            return;
                     }
+                    FindFiles(child,e);
                 }
             }
         }
 
-        private void FindFiles(DirectoryInfo dir)
+        private void FindFiles(DirectoryInfo dir, DoWorkEventArgs e)
         {
-            var progressLimit = 100;
-            List<string> files = new List<string>();
-            string fileExt = this.extDropdown.Text;
             try
             {
                 DirectoryInfo[] children = getDirectories(dir);
@@ -90,28 +125,35 @@ namespace hw7
                 {
                     foreach (DirectoryInfo child in children)
                     {
-                        /*         Debug.WriteLine(child.FullName);*/
-                        FindFiles(child);
-                        if (token.IsCancellationRequested)
+                        _busy.WaitOne();
+                        if (worker.CancellationPending)
                         {
+                            e.Cancel = true;
                             return;
                         }
+                        FindFiles(child,e);
                     }
                 }
                 else
                 {
-                    FileInfo[] Files = dir.GetFiles("*" + fileExt);
+                    FileInfo[] Files = dir.GetFiles("*" + workerExt);
                     if (Files.Length > 0)
                     {
                         foreach (FileInfo File in Files)
                         {
-                            Debug.WriteLine("FILE: " + File.FullName);
-                            files.Add(File.FullName);
-                            if (files.Count % progressLimit == 0)
+                            _busy.WaitOne();
+                            if (worker.CancellationPending)
                             {
-                                worker.ReportProgress(files.Count, files.ToArray());
-                                files.Clear();
+                                e.Cancel = true;
+                                return;
                             }
+                            Debug.WriteLine("FILE: " + File.FullName);
+                           
+                            filesListBox.BeginInvoke(new MethodInvoker(() => {
+                                myFiles.Add(File.FullName, File);
+                                filesListBox.Items.Add(File.FullName);
+                            }));
+                           
 
                         }
                     }
@@ -157,6 +199,29 @@ namespace hw7
         {
             DirectoryInfo dir = new DirectoryInfo(strDrive);
             return getDirectories(dir);
+        }
+
+        private void extDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            workerExt = this.extDropdown.Text;
+        }
+
+        private void SearchForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (worker.IsBusy)
+            {
+                worker.CancelAsync();
+                _busy.Set();
+            }
+        }
+
+        private void filesListBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int index = this.filesListBox.IndexFromPoint(e.Location);
+            if (index != ListBox.NoMatches)
+            {
+                MessageBox.Show("TO DO: IMPORT FILE WITH INDEX -> " + index.ToString() );
+            }
         }
     }
 }
