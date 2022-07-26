@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ricky\\source\\repos\\HW7\\hw7\\HW7.csproj": {}
+    "D:\\School\\COP 4226 - Advanced Windows Prog\\reallast\\HW7\\hw7\\HW7.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ricky\\source\\repos\\HW7\\hw7\\HW7.csproj": {
+    "D:\\School\\COP 4226 - Advanced Windows Prog\\reallast\\HW7\\hw7\\HW7.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ricky\\source\\repos\\HW7\\hw7\\HW7.csproj",
+        "projectUniqueName": "D:\\School\\COP 4226 - Advanced Windows Prog\\reallast\\HW7\\hw7\\HW7.csproj",
         "projectName": "HW7",
-        "projectPath": "C:\\Users\\Ricky\\source\\repos\\HW7\\hw7\\HW7.csproj",
-        "packagesPath": "C:\\Users\\Ricky\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ricky\\source\\repos\\HW7\\hw7\\obj\\",
+        "projectPath": "D:\\School\\COP 4226 - Advanced Windows Prog\\reallast\\HW7\\hw7\\HW7.csproj",
+        "packagesPath": "C:\\Users\\Pedro\\.nuget\\packages\\",
+        "outputPath": "D:\\School\\COP 4226 - Advanced Windows Prog\\reallast\\HW7\\hw7\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Ricky\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Pedro\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
