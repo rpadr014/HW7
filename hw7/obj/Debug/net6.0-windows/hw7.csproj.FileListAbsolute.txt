@@ -16,3 +16,21 @@ D:\School\COP 4226 - Advanced Windows Prog\assignment\hw7\hw7\obj\Debug\net6.0-w
 D:\School\COP 4226 - Advanced Windows Prog\assignment\hw7\hw7\obj\Debug\net6.0-windows\hw7.genruntimeconfig.cache
 D:\School\COP 4226 - Advanced Windows Prog\assignment\hw7\hw7\obj\Debug\net6.0-windows\ref\hw7.dll
 D:\School\COP 4226 - Advanced Windows Prog\assignment\hw7\hw7\obj\Debug\net6.0-windows\hw7.SearchForm.resources
+C:\Users\Ricky\Source\Repos\HW7\hw7\bin\Debug\net6.0-windows\hw7.exe
+C:\Users\Ricky\Source\Repos\HW7\hw7\bin\Debug\net6.0-windows\hw7.deps.json
+C:\Users\Ricky\Source\Repos\HW7\hw7\bin\Debug\net6.0-windows\hw7.runtimeconfig.json
+C:\Users\Ricky\Source\Repos\HW7\hw7\bin\Debug\net6.0-windows\hw7.dll
+C:\Users\Ricky\Source\Repos\HW7\hw7\bin\Debug\net6.0-windows\hw7.pdb
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\hw7.csproj.AssemblyReference.cache
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\hw7.Main.resources
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\hw7.SearchForm.resources
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\hw7.csproj.GenerateResource.cache
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\hw7.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\hw7.AssemblyInfoInputs.cache
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\hw7.AssemblyInfo.cs
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\hw7.csproj.CoreCompileInputs.cache
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\hw7.dll
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\refint\hw7.dll
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\hw7.pdb
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\hw7.genruntimeconfig.cache
+C:\Users\Ricky\Source\Repos\HW7\hw7\obj\Debug\net6.0-windows\ref\hw7.dll

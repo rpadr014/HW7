@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hw7", "hw7\hw7.csproj", "{FF542D44-B0E1-4A0A-8987-1F1C365F01C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HW7", "hw7\HW7.csproj", "{FF542D44-B0E1-4A0A-8987-1F1C365F01C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW7ControlLibrary", "HW7ControlLibrary\HW7ControlLibrary.csproj", "{27F291B2-1637-4F2B-B58E-545EABA517BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{FF542D44-B0E1-4A0A-8987-1F1C365F01C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF542D44-B0E1-4A0A-8987-1F1C365F01C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF542D44-B0E1-4A0A-8987-1F1C365F01C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27F291B2-1637-4F2B-B58E-545EABA517BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27F291B2-1637-4F2B-B58E-545EABA517BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27F291B2-1637-4F2B-B58E-545EABA517BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27F291B2-1637-4F2B-B58E-545EABA517BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
