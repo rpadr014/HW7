@@ -20,7 +20,6 @@ namespace hw7
                 if (searchForm.ShowDialog() == DialogResult.OK)
                 {
                     fileText = "Hello From Dialog";
-                    this.textBox1.Text = fileText;
                 }
             }
         }
