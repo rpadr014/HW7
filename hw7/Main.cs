@@ -23,5 +23,22 @@ namespace hw7
                 }
             }
         }
+
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Main_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (IsKeyLocked(Keys.CapsLock))
+            {
+                capsLabel.Text = "CapsLock is on!";
+            } 
+            else
+            {
+                capsLabel.Text = "";
+            }
+        }
     }
 }
