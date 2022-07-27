@@ -25,7 +25,8 @@ namespace hw7
         ManualResetEvent _busy;
         SearchState workerState;
         string workerExt;
-        Dictionary<string, FileInfo> myFiles;
+        public static string fileToImport;
+        
 
         public SearchForm()
         {
@@ -36,7 +37,6 @@ namespace hw7
             worker.WorkerSupportsCancellation = true;
             worker.DoWork += Search;
             worker.RunWorkerCompleted += SearchCompleted;
-            myFiles = new Dictionary<string, FileInfo>();
         }
 
         public void SearchForm_Load(object sender, EventArgs e)
@@ -150,7 +150,6 @@ namespace hw7
                             Debug.WriteLine("FILE: " + File.FullName);
                            
                             filesListBox.BeginInvoke(new MethodInvoker(() => {
-                                myFiles.Add(File.FullName, File);
                                 filesListBox.Items.Add(File.FullName);
                             }));
                            
@@ -220,7 +219,9 @@ namespace hw7
             int index = this.filesListBox.IndexFromPoint(e.Location);
             if (index != ListBox.NoMatches)
             {
-                MessageBox.Show("TO DO: IMPORT FILE WITH INDEX -> " + index.ToString() );
+
+                fileToImport = this.filesListBox.Items[index].ToString();
+                this.DialogResult = DialogResult.OK;
             }
         }
     }

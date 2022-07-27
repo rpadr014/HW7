@@ -95,5 +95,10 @@ namespace HW7
                 this.OnSave.Invoke(sender, new TextInputEventArgs(text));
             }
         }
+
+        public void setText(string text)
+        {
+            this.textInputBox.Text = text;
+        }
     }
 }

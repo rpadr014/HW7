@@ -4,7 +4,6 @@ namespace hw7
 {
     public partial class Main : Form
     {
-        private string fileText { get; set; }
         private List<HW7.Text> textList;
 
         public Main()
@@ -13,18 +12,22 @@ namespace hw7
             textList = new List<HW7.Text>();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            openSearchDialog();
-        }
-
         private void openSearchDialog()
         {
-            using (SearchForm searchForm = new SearchForm())
+            if ((Application.OpenForms["SearchForm"] as SearchForm) == null)
             {
-                if (searchForm.ShowDialog() == DialogResult.OK)
+                using (SearchForm searchForm = new SearchForm())
                 {
-                    fileText = "Hello From Dialog";
+                    if (searchForm.ShowDialog() == DialogResult.OK)
+                    {
+                        string fileText = System.IO.File.ReadAllText(SearchForm.fileToImport);
+                        HW7.TextInputDialog dialog = new HW7.TextInputDialog();
+                        dialog.setText(fileText);
+                        dialog.OnSave += OnTextBoxDialogSave;
+                        dialog.ShowDialog();
+
+
+                    }
                 }
             }
         }
@@ -55,12 +58,17 @@ namespace hw7
 
         private void OnTextBoxDialogSave(object sender, HW7.TextInputEventArgs e)
         {
-            //string input = Interaction.InputBox("Enter your text: ", "Text Input", "", 10, 10);
+            //string input = Interaction.IntputBox("Ener your text: ", "Text Input", "", 10, 10);
             var font = new Font("TimesNewRoman", 25, FontStyle.Bold, GraphicsUnit.Pixel);
 
             this.textList.Add(e.TextInput);
 
             this.CreateGraphics().DrawString(e.TextInput.SavedText, e.TextInput.Font, new SolidBrush(e.TextInput.Color), e.TextInput.Location);
+        }
+
+        private void importFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openSearchDialog();
         }
     }
 }
