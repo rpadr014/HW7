@@ -100,5 +100,10 @@ namespace HW7
         {
             this.textInputBox.Text = text;
         }
+
+        private void TextInputDialog_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

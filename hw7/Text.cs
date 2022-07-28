@@ -21,6 +21,7 @@ namespace HW7
         public Font Font { get; set; }
         public SolidBrush Brush { get; set; }
         public Color Color { get; set; }
+        public int Rotation { get; set; }
 
         public static implicit operator string(Text v)
         {
