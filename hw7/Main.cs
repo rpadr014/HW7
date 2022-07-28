@@ -73,6 +73,7 @@ namespace hw7
             textProp.Font = e.TextInput.Font;
             textProp.Location = e.TextInput.Location;
             textProp.BrushColor = e.TextInput.Color;
+            textProp.BackColor = e.TextInput.BackColor;
 
             this.CreateGraphics().DrawString(e.TextInput.SavedText, e.TextInput.Font, new SolidBrush(e.TextInput.Color), e.TextInput.Location);
             
