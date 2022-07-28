@@ -15,6 +15,7 @@ namespace HW7
     public partial class TextInputDialog : Form
     {
         public event EventHandler<TextInputEventArgs> OnSave;
+        public bool editing { get; set; }
 
         public TextInputDialog()
         {
@@ -100,5 +101,7 @@ namespace HW7
         {
             this.textInputBox.Text = text;
         }
+
+     
     }
 }

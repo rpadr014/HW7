@@ -8,17 +8,22 @@ namespace hw7
     public partial class Main : Form
     {
         private List<HW7.Text> textList;
+        private List<Panel> drawingPanels;
         private string fileName = "";
         public Text textProp = new Text();
         private bool edited = false;
         private Document doc = new Document();
-
-        private Control activeControl;
+        private HW7.TextInputDialog dialog;
+        private Panel secondSelected;
+        private Panel activeControl;
         private Point previousPosition;
         public Main()
         {
             InitializeComponent();
             textList = new List<HW7.Text>();
+            drawingPanels = new List<Panel>();
+            dialog = new HW7.TextInputDialog();
+            dialog.OnSave += OnTextBoxDialogSave;
 
         }
 
@@ -31,9 +36,7 @@ namespace hw7
                     if (searchForm.ShowDialog() == DialogResult.OK)
                     {
                         string fileText = System.IO.File.ReadAllText(SearchForm.fileToImport);
-                        HW7.TextInputDialog dialog = new HW7.TextInputDialog();
                         dialog.setText(fileText);
-                        dialog.OnSave += OnTextBoxDialogSave;
                         dialog.ShowDialog();
 
 
@@ -61,31 +64,47 @@ namespace hw7
 
         private void OnInsertTextClick(object sender, EventArgs e)
         {
-            HW7.TextInputDialog dialog = new HW7.TextInputDialog();
-            dialog.OnSave += OnTextBoxDialogSave;
             dialog.ShowDialog();
         }
 
         private void OnTextBoxDialogSave(object sender, HW7.TextInputEventArgs e)
         {
+            Panel panel;
+            if (dialog.editing)
+            {
+                panel = activeControl;
+                activeControl = null;
+            }
+            else
+            {
+                panel = new HW7.SelectablePanel();
+                panel.MouseDown += new MouseEventHandler(drawing_MouseDown);
+                panel.MouseMove += new MouseEventHandler(drawing_MouseMove);
+                panel.MouseUp += new MouseEventHandler(drawing_MouseUp);
+                panel.Paint += new PaintEventHandler(drawing_Paint);
+                panel.KeyDown += new KeyEventHandler(drawing_KeyDown);
+                panel.MouseClick += new MouseEventHandler(drawing_RightClick);
 
-            var panel = new HW7.SelectablePanel();
+            }
             panel.Location = e.TextInput.Location;
             panel.BackColor = e.TextInput.BackColor;
-            panel.MouseDown += new MouseEventHandler(drawing_MouseDown);
-            panel.MouseMove += new MouseEventHandler(drawing_MouseMove);
-            panel.MouseUp += new MouseEventHandler(drawing_MouseUp);
-            panel.Paint += new PaintEventHandler(drawing_Paint);
-            panel.KeyDown += new KeyEventHandler(drawing_KeyDown);
-            this.Controls.Add(panel);
+            
+            if (!dialog.editing) this.Controls.Add(panel);
 
+            drawingPanels.Add(panel);
             this.textList.Add(e.TextInput);
+
             textProp.SavedText = e.TextInput.SavedText;
             textProp.Font = e.TextInput.Font;
             textProp.Location = e.TextInput.Location;
             textProp.BrushColor = e.TextInput.Color;
             textProp.BackColor = e.TextInput.BackColor;
+
+            panel.Invalidate();
             panel.Refresh();
+       
+            dialog.editing = false;
+        /**/    dialog.DialogResult = DialogResult.OK;
 
             
         }
@@ -175,7 +194,7 @@ namespace hw7
         }
         private void loadFeatures(Document theFeatures)
         {
-            CreateGraphics().DrawString(theFeatures.TextList[0].SavedText, theFeatures.TextList[0].Font, new SolidBrush(theFeatures.TextList[0].BrushColor), theFeatures.TextList[0].Location);
+            CreateGraphics().DrawString(theFeatures.TextList[0].SavedText, theFeatures.TextList[0].Font, new SolidBrush(theFeatures.TextList[0].BrushColor), new Point(0,0));
             //foreach (Shape s in theFeatures.savedShapes)
             //{
             //    s.Pen = new Pen(s.PenColor, 1);
@@ -185,9 +204,8 @@ namespace hw7
         }
         private void drawing_MouseDown(object sender, MouseEventArgs e)
         {
-            
-                activeControl = sender as Control;
-                InvokeOnClick(activeControl, EventArgs.Empty);
+                secondSelected = sender as Panel;
+                activeControl = sender as Panel;
                 previousPosition = e.Location;
                 Cursor = Cursors.Hand;
         }
@@ -197,7 +215,6 @@ namespace hw7
             {
                 return;
             }
-            InvokeOnClick(activeControl, EventArgs.Empty);
             var location = activeControl.Location;
             location.Offset(e.Location.X - previousPosition.X, e.Location.Y - previousPosition.Y);
             activeControl.Location = location;
@@ -210,15 +227,19 @@ namespace hw7
 
         private void drawing_Paint(object sender, PaintEventArgs e)
         {
-            var g = e.Graphics;
-            HW7.Text TextArgs = this.textList[this.textList.Count - 1];
-            g.DrawString(TextArgs.SavedText, TextArgs.Font, new SolidBrush(TextArgs.Color), TextArgs.Location);
+            Panel latestPanel = sender as Panel;
+            if (sender.Equals(drawingPanels[drawingPanels.Count - 1]))
+            {
+                var g = e.Graphics;
+                HW7.Text TextArgs = this.textList[this.textList.Count - 1];
+                g.DrawString(TextArgs.SavedText, TextArgs.Font, new SolidBrush(TextArgs.Color), new Point(0,0));
+            }
 
         }
 
         private void drawing_KeyDown(object sender, KeyEventArgs e)
         {
-            activeControl = sender as Control;
+            activeControl = sender as Panel;
             var location = activeControl.Location;
 
             switch (e.KeyCode)
@@ -241,6 +262,44 @@ namespace hw7
                     break;
             }
           
+        }
+
+        private void drawing_RightClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                activeControl = sender as Panel;
+                int index = drawingPanels.IndexOf(activeControl);
+                HW7.Text text = textList[index];
+                dialog.setText(text.SavedText);
+                dialog.editing = true;
+                dialog.ShowDialog();
+            }
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            this.activeControl = null;
+        }
+
+        private void bringToFrontButton_Click(object sender, EventArgs e)
+        {
+            if (secondSelected != null)
+            {
+                secondSelected.BringToFront();
+                bringToFrontButton.BringToFront();
+                sendToBackButton.BringToFront();
+                secondSelected = null;
+            }
+        }
+
+        private void sendToBackButton_Click(object sender, EventArgs e)
+        {
+            if (secondSelected != null)
+            {
+                secondSelected.SendToBack();
+                secondSelected = null;
+            }
         }
     }
 }

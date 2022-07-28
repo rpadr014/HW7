@@ -37,6 +37,8 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bringToFrontButton = new System.Windows.Forms.Button();
+            this.sendToBackButton = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -85,49 +87,72 @@
             // insertTextToolStripMenuItem
             // 
             this.insertTextToolStripMenuItem.Name = "insertTextToolStripMenuItem";
-            this.insertTextToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.insertTextToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.insertTextToolStripMenuItem.Text = "Insert Text";
             this.insertTextToolStripMenuItem.Click += new System.EventHandler(this.OnInsertTextClick);
             // 
             // importFileToolStripMenuItem
             // 
             this.importFileToolStripMenuItem.Name = "importFileToolStripMenuItem";
-            this.importFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importFileToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.importFileToolStripMenuItem.Text = "Import File";
             this.importFileToolStripMenuItem.Click += new System.EventHandler(this.importFileToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.saveAsToolStripMenuItem.Text = "Save As...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // bringToFrontButton
+            // 
+            this.bringToFrontButton.Location = new System.Drawing.Point(552, 388);
+            this.bringToFrontButton.Name = "bringToFrontButton";
+            this.bringToFrontButton.Size = new System.Drawing.Size(93, 23);
+            this.bringToFrontButton.TabIndex = 3;
+            this.bringToFrontButton.Text = "Bring To Front";
+            this.bringToFrontButton.UseVisualStyleBackColor = true;
+            this.bringToFrontButton.Click += new System.EventHandler(this.bringToFrontButton_Click);
+            // 
+            // sendToBackButton
+            // 
+            this.sendToBackButton.Location = new System.Drawing.Point(651, 388);
+            this.sendToBackButton.Name = "sendToBackButton";
+            this.sendToBackButton.Size = new System.Drawing.Size(93, 23);
+            this.sendToBackButton.TabIndex = 4;
+            this.sendToBackButton.Text = "Send To Back";
+            this.sendToBackButton.UseVisualStyleBackColor = true;
+            this.sendToBackButton.Click += new System.EventHandler(this.sendToBackButton_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.sendToBackButton);
+            this.Controls.Add(this.bringToFrontButton);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Main_Load);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Main_KeyUp);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
@@ -148,5 +173,7 @@
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripMenuItem saveAsToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
+        private Button bringToFrontButton;
+        private Button sendToBackButton;
     }
 }
