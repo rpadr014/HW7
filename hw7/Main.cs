@@ -87,7 +87,6 @@ namespace hw7
             textProp.BackColor = e.TextInput.BackColor;
             panel.Refresh();
 
-            this.CreateGraphics().DrawString(e.TextInput.SavedText, e.TextInput.Font, new SolidBrush(e.TextInput.Color), e.TextInput.Location);
             
         }
 
