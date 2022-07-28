@@ -15,10 +15,12 @@ namespace HW7
         }
         public String SavedText { get; set; }
         public int zOrder { get; set; }
-        public Color Color { get; set; }
+        public Color BrushColor { get; set; }
         public Color BackColor { get; set; }
         public Point Location { get; set; } = new Point(0, 0);
         public Font Font { get; set; }
+        public SolidBrush Brush { get; set; }
+        public Color Color { get; set; }
 
         public static implicit operator string(Text v)
         {

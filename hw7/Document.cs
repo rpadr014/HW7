@@ -9,6 +9,6 @@ namespace HW7
     [Serializable]
     internal class Document
     {
-        public List<Text> savedShapes { get; set; } = new List<Text>();
+        public List<Text> TextList { get; set; } = new List<Text>();
     }
 }
