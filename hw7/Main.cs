@@ -227,14 +227,11 @@ namespace hw7
 
         private void drawing_Paint(object sender, PaintEventArgs e)
         {
-            Panel latestPanel = sender as Panel;
-            if (sender.Equals(drawingPanels[drawingPanels.Count - 1]))
-            {
-                var g = e.Graphics;
-                HW7.Text TextArgs = this.textList[this.textList.Count - 1];
-                g.DrawString(TextArgs.SavedText, TextArgs.Font, new SolidBrush(TextArgs.Color), new Point(0,0));
-            }
-
+            Panel panel = sender as Panel;
+            int index = drawingPanels.FindLastIndex((x) => panel.Equals(x));
+            var g = e.Graphics;
+            HW7.Text TextArgs = this.textList[index];
+            g.DrawString(TextArgs.SavedText, TextArgs.Font, new SolidBrush(TextArgs.Color), new Point(0, 0));
         }
 
         private void drawing_KeyDown(object sender, KeyEventArgs e)
