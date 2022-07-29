@@ -190,7 +190,8 @@ namespace hw7
                     panel.Paint += new PaintEventHandler(drawing_Paint);
                     panel.KeyDown += new KeyEventHandler(drawing_KeyDown);
                     this.Controls.Add(panel);
-                    panel.Refresh();
+                    drawingPanels.Add(panel);
+                    panel.Invalidate();
                     //statusLabel.Text = fileName + " was opened.";
                     this.Text = fileName;
                 }
