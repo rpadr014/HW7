@@ -99,7 +99,9 @@ namespace hw7
             textProp.Font = e.TextInput.Font;
             textProp.Location = e.TextInput.Location;
             textProp.BrushColor = e.TextInput.Color;
-            textProp.BackColor = e.TextInput.BackColor;
+            textProp.BackColor = panel.BackColor;
+            textProp.Location = panel.Location;
+            textProp.Color = e.TextInput.Color;
 
             panel.Invalidate();
             panel.Refresh();
@@ -178,7 +180,17 @@ namespace hw7
                     SoapFormatter formatter = new SoapFormatter();
                     Document newfeatures = (Document)formatter.Deserialize(fs);
                     doc = newfeatures;
-                    loadFeatures(doc);
+                    textList.Add(doc.TextList[0]);
+                    var panel = new HW7.SelectablePanel();
+                    panel.Location = doc.TextList[0].Location;
+                    panel.BackColor = doc.TextList[0].BackColor;
+                    panel.MouseDown += new MouseEventHandler(drawing_MouseDown);
+                    panel.MouseMove += new MouseEventHandler(drawing_MouseMove);
+                    panel.MouseUp += new MouseEventHandler(drawing_MouseUp);
+                    panel.Paint += new PaintEventHandler(drawing_Paint);
+                    panel.KeyDown += new KeyEventHandler(drawing_KeyDown);
+                    this.Controls.Add(panel);
+                    panel.Refresh();
                     //statusLabel.Text = fileName + " was opened.";
                     this.Text = fileName;
                 }
