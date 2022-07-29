@@ -16,6 +16,7 @@ namespace HW7
     {
         public event EventHandler<TextInputEventArgs> OnSave;
         public bool editing { get; set; }
+        public bool importedText { get; set; }
 
         public TextInputDialog()
         {
@@ -84,17 +85,40 @@ namespace HW7
 
         private void OnSaveClick(object sender, EventArgs e)
         {
-            var text = new Text();
-            text.SavedText = this.textInputBox.Text;
-            text.Color = Color.FromName(this.colorBox.Text);
-            text.zOrder = ((int)this.zOrderBox.Value);
-            text.BackColor = Color.FromName(this.backColorBox.Text);
-            text.Font = new Font(this.fontFamilyComboBox.SelectedText, (int) this.fontSizeBox.Value, (FontStyle) this.fontStyleComboBox.SelectedItem, GraphicsUnit.Pixel);
-            text.Location = new Point(((int)this.xBox.Value), (int)this.yBox.Value);
-            if(OnSave != null)
+            if (!importedText)
             {
-                this.OnSave.Invoke(sender, new TextInputEventArgs(text));
+                var textSplit = textInputBox.Text.Split(' ');
+                foreach (String t in textSplit)
+                {
+                    var text = new Text();
+                    text.SavedText = t;
+                    text.Color = Color.FromName(this.colorBox.Text);
+                    text.zOrder = ((int)this.zOrderBox.Value);
+                    text.BackColor = Color.FromName(this.backColorBox.Text);
+                    text.Font = new Font(this.fontFamilyComboBox.SelectedText, (int)this.fontSizeBox.Value, (FontStyle)this.fontStyleComboBox.SelectedItem, GraphicsUnit.Pixel);
+                    text.Location = new Point(((int)this.xBox.Value), (int)this.yBox.Value);
+                    if (OnSave != null)
+                    {
+                        this.OnSave.Invoke(sender, new TextInputEventArgs(text));
+                    }
+                }
             }
+
+            else
+            {
+                var text = new Text();
+                text.SavedText = this.textInputBox.Text;
+                text.Color = Color.FromName(this.colorBox.Text);
+                text.zOrder = ((int)this.zOrderBox.Value);
+                text.BackColor = Color.FromName(this.backColorBox.Text);
+                text.Font = new Font(this.fontFamilyComboBox.SelectedText, (int)this.fontSizeBox.Value, (FontStyle)this.fontStyleComboBox.SelectedItem, GraphicsUnit.Pixel);
+                text.Location = new Point(((int)this.xBox.Value), (int)this.yBox.Value);
+                if (OnSave != null)
+                {
+                    this.OnSave.Invoke(sender, new TextInputEventArgs(text));
+                }
+            }
+            importedText = false;
         }
 
         public void setText(string text)

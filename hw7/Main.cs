@@ -37,6 +37,7 @@ namespace hw7
                     {
                         string fileText = System.IO.File.ReadAllText(SearchForm.fileToImport);
                         dialog.setText(fileText);
+                        dialog.importedText = true;
                         dialog.ShowDialog();
 
 
