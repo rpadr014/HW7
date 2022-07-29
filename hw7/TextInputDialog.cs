@@ -88,6 +88,9 @@ namespace HW7
             if (!importedText)
             {
                 var textSplit = textInputBox.Text.Split(' ');
+                int i = 0;
+                int lastX = (int)this.xBox.Value;
+                int lastY = (int)this.yBox.Value;
                 foreach (String t in textSplit)
                 {
                     var text = new Text();
@@ -97,6 +100,11 @@ namespace HW7
                     text.BackColor = Color.FromName(this.backColorBox.Text);
                     text.Font = new Font(this.fontFamilyComboBox.SelectedText, (int)this.fontSizeBox.Value, (FontStyle)this.fontStyleComboBox.SelectedItem, GraphicsUnit.Pixel);
                     text.Location = new Point(((int)this.xBox.Value), (int)this.yBox.Value);
+                    if (i > 0)
+                    {
+                        text.Location = new Point(lastX + 200, lastY + 100);
+                    }
+                    i++;
                     if (OnSave != null)
                     {
                         this.OnSave.Invoke(sender, new TextInputEventArgs(text));
@@ -126,6 +134,13 @@ namespace HW7
             this.textInputBox.Text = text;
         }
 
-     
+        private void TextInputDialog_Load(object sender, EventArgs e)
+        {
+            colorBox.SelectedIndex = 3;
+            backColorBox.SelectedIndex = 8;
+            fontSizeBox.Value = 12;
+            xBox.Value = 50;
+            yBox.Value = 50;
+        }
     }
 }
